@@ -1,16 +1,14 @@
-import React from "react";
-import Counter from "./components/Counter";
-import { useSelector } from "react-redux";
-
+import { Routes, Route } from "react-router-dom";
+import { Header, Login, Main, Register } from "./components";
 const App = () => {
-  const state = useSelector((state) => state);
-  console.log(state);
   return (
-    <div className="container mt-5 d-flex flex-column mb-3">
-      Counter:
-      <div className="w-350">
-        <Counter />
-      </div>
+    <div className="container">
+      <Header />
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
     </div>
   );
 };
