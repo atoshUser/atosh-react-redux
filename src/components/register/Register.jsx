@@ -9,6 +9,7 @@ import {
   addUserSuccess,
   userLoginStart,
 } from "../../reducer/auth/auth";
+import ValidationError from "../validation-error/ValidationError";
 const Register = () => {
   const { isLoading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -18,26 +19,34 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(userLoginStart());
+
     const user = {
       username,
       password,
       email,
     };
-    try {
-      const response = await AuthService.registerUser(user);
-      dispatch(addUserSuccess(response.user));
-    } catch (error) {
-      dispatch(addUserFailure(error.response.data.errors));
+
+    if (!username && !password && !email) {
+      return null;
+    } else {
+      try {
+        dispatch(userLoginStart());
+        const response = await AuthService.registerUser(user);
+        dispatch(addUserSuccess(response.user));
+        setUserName("");
+        setEmail("");
+        setPassword("");
+      } catch (error) {
+        dispatch(addUserFailure(error.response.data.errors));
+      }
     }
-    setUserName("");
-    setEmail("");
-    setPassword("");
   };
+
   return (
     <div className={style.formWrapper}>
       <form className={style.form}>
         <h2 className="fs-2 font-bold">Please Register</h2>
+        <ValidationError />
         <Input state={username} setState={setUserName} label={"Username"} />
         <Input state={email} setState={setEmail} type="email" label={"Email"} />
         <Input
