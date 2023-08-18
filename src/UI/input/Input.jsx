@@ -4,12 +4,12 @@ const Input = ({ type = "text", label, state, setState }) => {
       <input
         type={type}
         className="form-control"
-        id="floatingInput"
+        id={`floating${label}`}
         value={state}
         onChange={(e) => setState(e.target.value)}
         placeholder={label}
       />
-      <label htmlFor="floatingInput" className="text-black">
+      <label htmlFor={`floating${label}`} className="text-black">
         {label}
       </label>
     </div>

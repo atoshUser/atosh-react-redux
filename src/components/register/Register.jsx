@@ -2,31 +2,33 @@ import { useState } from "react";
 import { Input } from "../../UI";
 import style from "./register.module.css";
 import { useDispatch, useSelector } from "react-redux";
+
+import AuthService from "../../service/auth";
 import {
-  addUserData,
-  addUserName,
+  addUserFailure,
+  addUserSuccess,
   userLoginStart,
 } from "../../reducer/auth/auth";
 const Register = () => {
-  const { isLogIn } = useSelector((state) => state.auth);
+  const { isLoading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const [userName, setUserName] = useState("");
+  const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(userLoginStart());
+    const user = {
+      username,
+      password,
+      email,
+    };
     try {
-      const data = {
-        userName,
-        password,
-        email,
-      };
-      dispatch(addUserData(data));
-      dispatch(userLoginStart())
+      const response = await AuthService.registerUser(user);
+      dispatch(addUserSuccess(response.user));
     } catch (error) {
-      console.log(`User ma'lumotlar jo'natilmadi`);
+      dispatch(addUserFailure(error.response.data.errors));
     }
     setUserName("");
     setEmail("");
@@ -36,7 +38,7 @@ const Register = () => {
     <div className={style.formWrapper}>
       <form className={style.form}>
         <h2 className="fs-2 font-bold">Please Register</h2>
-        <Input state={userName} setState={setUserName} label={"Username"} />
+        <Input state={username} setState={setUserName} label={"Username"} />
         <Input state={email} setState={setEmail} type="email" label={"Email"} />
         <Input
           state={password}
@@ -49,9 +51,9 @@ const Register = () => {
             type="button"
             className="btn btn-success btn-lg"
             onClick={(e) => handleSubmit(e)}
-            disabled={isLogIn}
+            disabled={isLoading}
           >
-            {isLogIn ? "Loading..." : "Register"}
+            {isLoading ? "Loading..." : "Register"}
           </button>
         </div>
       </form>
