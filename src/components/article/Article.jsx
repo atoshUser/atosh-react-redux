@@ -1,9 +1,21 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import style from "./article.module.css";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import ArticleService from "../../service/article";
+import {
+  getArticlesSucces,
+  postArticleSuccess,
+} from "../../reducer/article/article";
 const Article = ({ article }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { isLogIn, userData } = useSelector((state) => state.auth);
+
+  const deleteArticle = (slug) => {
+    ArticleService.deleteArticle(slug);
+ 
+  };
   return (
     <li className={style.listItem}>
       <span className={`${style.articleBox}`}>
@@ -57,12 +69,23 @@ const Article = ({ article }) => {
           >
             View
           </button>
-          <button type="button" className="btn btn-sm btn-outline-secondary">
-            Edit
-          </button>
-          <button type="button" className="btn btn-sm btn-outline-danger">
-            Delete
-          </button>
+          {isLogIn && userData.username == article?.author?.username && (
+            <>
+              <button
+                type="button"
+                className="btn btn-sm btn-outline-secondary"
+              >
+                Edit
+              </button>
+              <button
+                type="button"
+                className="btn btn-sm btn-outline-danger"
+                onClick={() => deleteArticle(article.slug)}
+              >
+                Delete
+              </button>
+            </>
+          )}
         </div>
         <h6 className="m-0 ">{article.author.username}</h6>
       </div>
