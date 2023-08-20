@@ -1,0 +1,34 @@
+.article {
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f8f8be;
+
+  padding: 15px;
+  border-radius: 12px;
+  margin-top: 30px;
+}
+
+.bioDetail {
+  display: flex;
+  justify-content: space-between;
+  width: 600px;
+  overflow: hidden;
+  border: 1px solid #777;
+  border-radius: 12px;
+}
+
+.bioLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+  width: calc(100% - 40%);
+}
+.bioRight {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #777;
+  text-transform: uppercase;
+  width: calc(100% - 60%);
+}

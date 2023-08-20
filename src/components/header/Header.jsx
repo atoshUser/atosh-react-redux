@@ -1,9 +1,18 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { logOutUser } from "../../reducer/auth/auth";
+import { removeItem } from "../../helpers/persistance-storage";
 
 const Header = () => {
   const { isLogIn, userData } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const logOut = () => {
+    removeItem(`token`);
+    dispatch(logOutUser());
+    navigate(`/login`);
+  };
   return (
     <header className="d-flex justify-content-between align-items-center  p-3 border-bottom">
       <Link to="/" className="text-white text-decoration-none">
@@ -19,7 +28,9 @@ const Header = () => {
           >
             {userData.username}
           </p>
-          <button className="btn btn-danger">Log out</button>
+          <button className="btn btn-danger" onClick={logOut}>
+            Log out
+          </button>
         </div>
       ) : (
         <div className="d-flex  justify-content-center align-items-center gap-3">

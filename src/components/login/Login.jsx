@@ -17,7 +17,7 @@ const Login = () => {
     if (isLogIn) {
       navigate("/");
     }
-  }, []);
+  }, [isLogIn]);
 
   const togleSubmit = async () => {
     const data = { email, password };
@@ -53,6 +53,7 @@ const Login = () => {
             onClick={togleSubmit}
             type="button"
             className="btn btn-success btn-lg"
+            disabled={isLoading}
           >
             {isLoading ? "Sending..." : "Log in"}
           </button>

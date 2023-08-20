@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "../../UI";
 import style from "./register.module.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,16 +10,23 @@ import {
   userLoginStart,
 } from "../../reducer/auth/auth";
 import ValidationError from "../validation-error/ValidationError";
+import { useNavigate } from "react-router-dom";
 const Register = () => {
-  const { isLoading } = useSelector((state) => state.auth);
+  const { isLogIn, isLoading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isLogIn) {
+      navigate(`/`);
+    }
+  }, [isLogIn]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const user = {
       username,
       password,
@@ -33,6 +40,7 @@ const Register = () => {
         dispatch(userLoginStart());
         const response = await AuthService.registerUser(user);
         dispatch(addUserSuccess(response.user));
+        navigate(`/`);
         setUserName("");
         setEmail("");
         setPassword("");
