@@ -5,26 +5,16 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addUserSuccess } from "./reducer/auth/auth";
 import ArticleService from "./service/article";
-import {
+import article, {
   getArticleFailure,
   getArticleStart,
   getArticlesSucces,
 } from "./reducer/article/article";
+import CreateArticle from "./components/create-article/CreateArticle";
 const App = () => {
   const dispatch = useDispatch();
 
-  // GET  ARTICLES FROM API
 
-  const getArticles = async () => {
-    dispatch(getArticleStart());
-    try {
-      const { articles } = await ArticleService.getArticles();
-
-      dispatch(getArticlesSucces(articles));
-    } catch (error) {
-      dispatch(getArticleFailure(error));
-    }
-  };
 
   //  GET USER TOKEN FROM LOCAL-STORAGE
   const getUser = async () => {
@@ -37,7 +27,7 @@ const App = () => {
 
   useEffect(() => {
     getUser();
-    getArticles();
+  
   }, []);
   return (
     <div className="container">
@@ -47,6 +37,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/article-detail/:slug" element={<ArticleDetail />} />
+        <Route path="/create-article" element={<CreateArticle/>} />
       </Routes>
     </div>
   );

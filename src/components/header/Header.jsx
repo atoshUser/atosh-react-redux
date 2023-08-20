@@ -28,6 +28,12 @@ const Header = () => {
           >
             {userData.username}
           </p>
+          <button
+            className="btn btn-success"
+            onClick={() => navigate(`/create-article`)}
+          >
+            Create Article
+          </button>
           <button className="btn btn-danger" onClick={logOut}>
             Log out
           </button>
