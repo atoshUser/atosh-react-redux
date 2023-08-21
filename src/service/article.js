@@ -14,8 +14,11 @@ const ArticleService = {
     return data;
   },
   async deleteArticle(slug) {
-   await axios.delete(`/articles/${slug}`);
-   
+    await axios.delete(`/articles/${slug}`);
+  },
+  async editArticle(slug, article) {
+    const { data } = await axios.put(`/articles/${slug}`, { article });
+    return data;
   },
 };
 
