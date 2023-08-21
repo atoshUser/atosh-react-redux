@@ -5,8 +5,8 @@ const initialState = {
   isLoading: false,
   isLogIn: false,
   userData: null,
-  email: "",
-  password: "",
+
+  
   error: null,
 };
 
@@ -25,9 +25,7 @@ export const authSlice = createSlice({
       state.isLogIn = true;
       state.error = null;
     },
-    addPassword: (state, action) => {
-      state.email = action.payload;
-    },
+  
     addUserFailure: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;

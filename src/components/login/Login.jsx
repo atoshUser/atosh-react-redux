@@ -4,7 +4,12 @@ import style from "./login.module.css";
 import { useNavigate } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import AuthService from "../../service/auth";
-import { addUserSuccess, userLoginStart } from "../../reducer/auth/auth";
+import {
+  addUserFailure,
+  addUserSuccess,
+  userLoginStart,
+} from "../../reducer/auth/auth";
+import ValidationError from "../validation-error/ValidationError";
 
 const Login = () => {
   const { isLogIn, isLoading } = useSelector((state) => state.auth);
@@ -29,13 +34,14 @@ const Login = () => {
       setPassword("");
       navigate("/");
     } catch (error) {
-      console.log("Error at Login get Data");
+      dispatch(addUserFailure(error.response.data.errors));
     }
   };
   return (
     <div className={style.formWrapper}>
       <form className={style.form}>
         <h3 className="text-uppercase fs-2">Log In</h3>
+        <ValidationError />
         <Input
           type={"email"}
           label={"Email"}
