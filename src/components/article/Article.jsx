@@ -14,7 +14,6 @@ const Article = ({ article }) => {
 
   const deleteArticle = (slug) => {
     ArticleService.deleteArticle(slug);
- 
   };
   return (
     <li className={style.listItem}>
@@ -24,7 +23,6 @@ const Article = ({ article }) => {
       <div className={style.items}>
         <h5
           style={{
-            whiteSpace: "nowrap",
             color: "#333",
             textTransform: "capitalize",
             paddingLeft: "10px",
@@ -74,6 +72,7 @@ const Article = ({ article }) => {
               <button
                 type="button"
                 className="btn btn-sm btn-outline-secondary"
+                onClick={() => navigate(`/edit-article/${article.slug}`)}
               >
                 Edit
               </button>
